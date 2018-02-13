@@ -7,5 +7,4 @@ client.registerMethod("bitcoin", "https://api.coinmarketcap.com/v1/ticker/bitcoi
 
 client.methods.bitcoin(function (data) {
     console.log(data);
-
 });
