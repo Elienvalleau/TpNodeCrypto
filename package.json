@@ -1,5 +1,5 @@
 {
-  "name": "njs-302",
+  "name": "Crypto Tracker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "bin": {
-    "mycommand": "./index.js"
+    "crypto-tracker": "./index.js"
   },
   "author": "",
   "license": "ISC",
