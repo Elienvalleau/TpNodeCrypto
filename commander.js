@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 const program = require('commander');
 const init = require('./inquirer');
+const CryptoBdd = require('./model/crypto');
+CryptoBdd.sync();
 
 program
     .version('1.0.0')
