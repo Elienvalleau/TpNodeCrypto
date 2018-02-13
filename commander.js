@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
+const init = require('./inquirer');
+
 program
     .version('1.0.0')
     .option('-i, --init', 'initialisation')
@@ -10,7 +12,7 @@ program
 program.parse(process.argv);
 
 if(program.init){
-
+    init();
 } else if (program.add){
 
 } else if (program.delete){
