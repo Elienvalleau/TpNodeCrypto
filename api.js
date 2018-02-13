@@ -1,11 +1,15 @@
-const Client = require('node-rest-client').Client;
+const axios = require('axios');
 
-const client = new Client();
+const callApi = async (currency) => {
+  try {
+    const response = await axios.get(`https://api.coinmarketcap.com/v1/ticker/${currency}`);
+    console.log(response.data);
+  } catch(err) {
+    console.log(err);
+  }
 
-const callApi = (currency) => {
-  client.get(`https://api.coinmarketcap.com/v1/ticker/${currency}`, function (data) {
-    console.log(data);
-  });
 };
+
+
 
 module.exports = callApi;
