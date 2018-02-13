@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const callApi = require("./api.js");
+const showCurrencies = require("./api.js");
 
 const init = async () => {
   try {
@@ -13,11 +13,9 @@ const init = async () => {
     ]);
 
     const cryptoChoices = answers.cryptoChoices;
+    showCurrencies(cryptoChoices);
 
-    cryptoChoices.map(currency => {
-      callApi(currency.toLowerCase());
-    });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 };
