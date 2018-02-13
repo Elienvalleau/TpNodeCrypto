@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('./api.js');
+require('./commander.js');
