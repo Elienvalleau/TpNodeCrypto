@@ -16,11 +16,9 @@
     "cli-table": "^0.3.1",
     "commander": "^2.14.1",
     "inquirer": "^5.1.0",
-    "inquirer-checkbox-search": "^1.0.1",
-    "node-rest-client": "^3.1.0",
+    "inquirer-search-checkbox": "^1.0.0",
     "sequelize": "^4.33.4",
     "sequelize-cli": "^4.0.0",
-    "sqlite": "^2.9.1",
     "sqlite3": "^3.1.13"
   }
 }
