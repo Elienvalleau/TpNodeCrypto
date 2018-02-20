@@ -19,9 +19,9 @@ program.parse(process.argv);
 
 (async () => {
   try {
-    const projects = await isInit.findAll({ where: { isInit: "True" } });
+    const request = await isInit.findAll({ where: { isInit: "True" } });
 
-    if (projects.length !== 0) {
+    if (request.length !== 0) {
       if (program.show || !process.argv.slice(2).length) {
         return (async () => {
           try {

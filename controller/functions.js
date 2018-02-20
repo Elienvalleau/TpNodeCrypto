@@ -39,9 +39,9 @@ const saveCurrencies = names => {
       return (async () => {
         if (name === result.name) {
           try {
-            const projects = await CryptoBdd.findAll({where: {name: result.name}});
+            const request = await CryptoBdd.findAll({where: {name: result.name}});
 
-            if (projects.length === 0) {
+            if (request.length === 0) {
 
               CryptoBdd.create({
                 idCrypto: result.id,

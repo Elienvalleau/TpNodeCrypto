@@ -10,6 +10,7 @@ const loading = require("loading-cli");
 const { currencies } = require("../controller/api");
 
 const addFavorites = async () => {
+  const resultArray = [];
   try {
     const load = loading("Fetching currencies").start();
 
@@ -19,6 +20,11 @@ const addFavorites = async () => {
       require("inquirer-search-checkbox")
     );
     await load.stop();
+
+    const request = await CryptoBdd.findAll();
+    request.forEach(result => {
+        resultArray.push(result.name);
+    });
 
     const answers = await inquirer.prompt([
       {
@@ -39,8 +45,8 @@ const showFavorites = async () => {
   const resultArray = [];
   try {
     await getCurrencies();
-    const projects = await CryptoBdd.findAll();
-    projects.forEach(result => {
+    const request = await CryptoBdd.findAll();
+    request.forEach(result => {
       resultArray.push(result.name);
     });
     showCurrencies(resultArray);
