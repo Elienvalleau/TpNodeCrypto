@@ -51,8 +51,9 @@ program.parse(process.argv);
           }
         })();
       }
-
-      program.help();
+      if (program.init){
+          console.log("Initialisation déjà effectuée")
+      }
     } else {
       if (program.init || !process.argv.slice(2).length) {
         return (async () => {
