@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('./commander.js');
+require("./view/commander.js");
