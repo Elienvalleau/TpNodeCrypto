@@ -37,7 +37,6 @@ const init = async () => {
       }
     ]);
 
-    console.log(answers);
     const cryptoChoices = answers.cryptoChoices;
     showCurrencies(cryptoChoices);
 
