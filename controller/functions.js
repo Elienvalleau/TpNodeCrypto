@@ -39,27 +39,16 @@ const saveCurrencies = names => {
       return (async () => {
         if (name === result.name) {
           try {
-            const request = await CryptoBdd.findAll({where: {name: result.name}});
+            CryptoBdd.create({
+              idCrypto: result.id,
+              name: result.name,
+              createdAt: new Date()
+            });
 
-            if (request.length === 0) {
-
-              CryptoBdd.create({
-                idCrypto: result.id,
-                name: result.name,
-                createdAt: new Date()
-              });
-
-              console.log(
+            console.log(
               "La monnaie " + result.name + " a été ajoutée à vos favoris"
-              );
-            } else {
-              console.log(
-              "La monnaie " +
-              result.name +
-              " est déjà présente dans vos favoris"
-              );
-            }
-          } catch(err) {
+            );
+          } catch (err) {
             console.log(err);
           }
         }

@@ -51,7 +51,9 @@ program.parse(process.argv);
           }
         })();
       }
+
       if (program.init){
+        //TODO Ajouter des couleurs
           console.log("Initialisation déjà effectuée")
       }
     } else {
