@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
-const { getCurrencies, showCurrencies} = require("./api.js");
+const { getCurrencies, showCurrencies, saveCurrencies} = require("./api.js");
+const { CryptoBdd } = require('./model/crypto');
 
 const init = async () => {
   try {
@@ -17,9 +18,25 @@ const init = async () => {
 
     const cryptoChoices = answers.cryptoChoices;
     showCurrencies(cryptoChoices);
+    saveCurrencies(cryptoChoices);
+
   } catch (err) {
     console.log(err);
   }
 };
 
-module.exports = init;
+
+const show = async () => {
+    let resultArray = [];
+    try {
+        CryptoBdd.findAll().then(projects => {
+            projects.forEach(result => {
+              console.log(result.name)
+            })
+        })
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+module.exports = { init, show };
