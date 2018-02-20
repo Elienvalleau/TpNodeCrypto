@@ -14,6 +14,13 @@ const table = new Table({
   ]
 });
 
+const axiosInstance = axios.create({
+  baseURL: 'https://api.coinmarketcap.com/v1/ticker/',
+  onDownloadProgress: function (progressEvent) {
+    console.log(progressEvent);
+  },
+});
+
 const currencies = {};
 currencies["all"] = [];
 currencies["names"] = [];
@@ -51,32 +58,33 @@ const showCurrencies = names => {
       }
     });
   });
-  console.log(table.toString());
+    console.log(table.toString());
 };
 
-const saveCurrencies = names => {
-  currencies.all.forEach(result => {
-    names.forEach(name => {
-      if (name === result.name) {
-        CryptoBdd.findAll({ where: { name: result.id } }).then(projects => {
-          if (projects.length === 0) {
-            CryptoBdd.create({ name: result.id, createdAt: new Date() }).then(
-              cryptobdd => {}
-            );
-            console.log(
-              "La monnaie " + result.name + " a été ajoutée à vos favoris"
-            );
-          } else {
-            console.log(
-              "La monnaie " +
-                result.name +
-                " est déjà présente dans vos favoris"
-            );
-          }
+const saveCurrencies = (names) => {
+    currencies.all.forEach(result => {
+        names.forEach(name => {
+            if(name === result.name) {
+                CryptoBdd.findAll({where: { name: result.name}}).then(projects => {
+                    if (projects.length === 0){
+                        CryptoBdd.create({idCrypto:result.id, name:result.name, createdAt: new Date()}).then(cryptobdd => {});
+                        console.log("La monnaie " + result.name + " a été ajoutée à vos favoris")
+                    }
+                    else {
+                      console.log("La monnaie " + result.name + " est déjà présente dans vos favoris")
+                    }
+                });
+            }
         });
-      }
     });
-  });
 };
 
-module.exports = { getCurrencies, showCurrencies, saveCurrencies};
+
+const deleteCurrencies = (names) => {
+    names.forEach(name => {
+        CryptoBdd.destroy({where:{name:name}});
+        console.log("La monnaie " + name + " a été supprimée de vos favoris")
+    });
+};
+
+module.exports = { getCurrencies, showCurrencies, saveCurrencies, deleteCurrencies};
