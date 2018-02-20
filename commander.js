@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const Sequelize = require('sequelize');
 const program = require('commander');
-const { init, show } = require('./inquirer');
+const { init, show, del } = require('./inquirer');
 const { CryptoBdd } = require('./model/crypto');
 const { isInit } = require('./model/crypto');
 const db = require('./db.js');
@@ -17,7 +17,6 @@ program
     .option('-s, --show', 'show crypto in dbb')
     .option('-a, --add', 'add crypto in favoris')
     .option('-d, --delete', 'delete a crypto')
-    .option('-dA, --deleteAll', 'delete all favoris');
 
 program.parse(process.argv);
 
@@ -43,7 +42,6 @@ if(program.init)
         }
         else
         {
-            console.log("Ok");
             show();
         }
     })
@@ -56,7 +54,6 @@ if(program.init)
         }
         else
         {
-            console.log("Ok");
             init();
         }
     })
@@ -69,23 +66,11 @@ if(program.init)
         }
         else
         {
-            console.log("Ok");
+            del();
         }
     })
 
-} else if (program.deleteAll)
-{
-    isInit.findAll({where: { isInit: "True"}}).then(projects => {
-        if (projects.length === 0){
-            console.log("Vous devez d'abord faire -i");
-        }
-        else
-        {
-            console.log("Ok");
-        }
-    })
-
-} else
+}  else
     {
     program.help()
 }

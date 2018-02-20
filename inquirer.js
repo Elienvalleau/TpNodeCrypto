@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const { getCurrencies, showCurrencies, saveCurrencies} = require("./api.js");
+const { getCurrencies, showCurrencies, saveCurrencies, deleteCurrencies} = require("./api.js");
 const { CryptoBdd } = require('./model/crypto');
 
 const init = async () => {
@@ -15,7 +15,6 @@ const init = async () => {
         choices: currencies.names,
       }
     ]);
-
     const cryptoChoices = answers.cryptoChoices;
     showCurrencies(cryptoChoices);
     saveCurrencies(cryptoChoices);
@@ -27,16 +26,46 @@ const init = async () => {
 
 
 const show = async () => {
-    let resultArray = [];
+    const resultArray = [];
     try {
+        await getCurrencies();
         CryptoBdd.findAll().then(projects => {
             projects.forEach(result => {
-              console.log(result.name)
-            })
+              resultArray.push(result.name);
+            });
+            showCurrencies(resultArray);
         })
     } catch (err) {
         console.log(err);
     }
 };
 
-module.exports = { init, show };
+
+const del = async () => {
+    const resultArray = [];
+    try {
+        console.log("Loading currencies ...");
+        await inquirer.registerPrompt("search-checkbox", require("inquirer-search-checkbox"));
+        const cryptoName = await CryptoBdd.findAll().then(projects => {
+                projects.forEach(result => {
+                    resultArray.push(result.name);
+                });
+                return resultArray
+            });
+        const answers = await inquirer.prompt([
+            {
+                type: "search-checkbox",
+                message: "Which crypto-currency do you want to delete ?",
+                name: "cryptoChoices",
+                choices: cryptoName,
+            }
+        ]);
+        const cryptoChoices = answers.cryptoChoices;
+        deleteCurrencies(cryptoChoices);
+
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+module.exports = { init, show, del };
