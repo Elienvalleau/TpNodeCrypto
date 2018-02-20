@@ -1,12 +1,15 @@
 const inquirer = require("inquirer");
 const { getCurrencies, showCurrencies, saveCurrencies} = require("./api.js");
 const { CryptoBdd } = require('./model/crypto');
+const loading =  require('loading-cli');
 
 const init = async () => {
   try {
-    console.log("Loading currencies ...");
+    const load = loading("Fetching currencies").start();
+
     const currencies = await getCurrencies();
     await inquirer.registerPrompt("search-checkbox", require("inquirer-search-checkbox"));
+    await load.stop();
     const answers = await inquirer.prompt([
       {
         type: "search-checkbox",

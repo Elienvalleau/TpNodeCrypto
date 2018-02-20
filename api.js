@@ -14,13 +14,6 @@ const table = new Table({
   ]
 });
 
-const axiosInstance = axios.create({
-  baseURL: 'https://api.coinmarketcap.com/v1/ticker/',
-  onDownloadProgress: function (progressEvent) {
-    console.log(progressEvent);
-  },
-});
-
 const currencies = {};
 currencies["all"] = [];
 currencies["names"] = [];
@@ -28,7 +21,9 @@ currencies["ids"] = [];
 
 const getCurrencies = async () => {
   try {
-    const results = await axiosInstance.get(`https://api.coinmarketcap.com/v1/ticker/?limit=10000`);
+    const results = await axios(
+      `https://api.coinmarketcap.com/v1/ticker/?limit=10000`
+    );
     results.data.forEach(result => {
       currencies["all"].push(result);
       currencies["names"].push(result.name);
@@ -40,10 +35,10 @@ const getCurrencies = async () => {
   }
 };
 
-const showCurrencies = (names) => {
+const showCurrencies = names => {
   currencies.all.forEach(result => {
     names.forEach(name => {
-      if(name === result.name) {
+      if (name === result.name) {
         table.push([
           result.symbol,
           result.name,
@@ -59,22 +54,29 @@ const showCurrencies = (names) => {
   console.log(table.toString());
 };
 
-const saveCurrencies = (names) => {
-    currencies.all.forEach(result => {
-        names.forEach(name => {
-            if(name === result.name) {
-                CryptoBdd.findAll({where: { name: result.id}}).then(projects => {
-                    if (projects.length === 0){
-                        CryptoBdd.create({name:result.id, createdAt: new Date()}).then(cryptobdd => {});
-                        console.log("La monnaie " + result.name + " a été ajoutée à vos favoris")
-                    }
-                    else {
-                      console.log("La monnaie " + result.name + " est déjà présente dans vos favoris")
-                    }
-                });
-            }
+const saveCurrencies = names => {
+  currencies.all.forEach(result => {
+    names.forEach(name => {
+      if (name === result.name) {
+        CryptoBdd.findAll({ where: { name: result.id } }).then(projects => {
+          if (projects.length === 0) {
+            CryptoBdd.create({ name: result.id, createdAt: new Date() }).then(
+              cryptobdd => {}
+            );
+            console.log(
+              "La monnaie " + result.name + " a été ajoutée à vos favoris"
+            );
+          } else {
+            console.log(
+              "La monnaie " +
+                result.name +
+                " est déjà présente dans vos favoris"
+            );
+          }
         });
+      }
     });
+  });
 };
 
 module.exports = { getCurrencies, showCurrencies, saveCurrencies};
