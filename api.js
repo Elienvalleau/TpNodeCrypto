@@ -13,32 +13,49 @@ const table = new Table({
   ]
 });
 
-const showCurrencies = async currencies => {
-  const tabPromises = [];
-  try {
-    currencies.forEach(currency => {
-      tabPromises.push(
-        axios.get(`https://api.coinmarketcap.com/v1/ticker/${currency}`)
-      );
-    });
+const axiosInstance = axios.create({
+  baseURL: 'https://api.coinmarketcap.com/v1/ticker/',
+  onDownloadProgress: function (progressEvent) {
+    console.log(progressEvent);
+  },
+});
 
-    const results = await axios.all(tabPromises);
-    results.forEach(result => {
-      const data = result.data[0];
-      table.push([
-        data.symbol,
-        data.name,
-        data.rank,
-        data.price_usd,
-        data.percent_change_1h,
-        data.percent_change_24h,
-        data.percent_change_7d
-      ]);
+const currencies = {};
+currencies["all"] = [];
+currencies["names"] = [];
+currencies["ids"] = [];
+
+const getCurrencies = async () => {
+  try {
+    const results = await axiosInstance.get(`https://api.coinmarketcap.com/v1/ticker/?limit=10000`);
+    results.data.forEach(result => {
+      currencies["all"].push(result);
+      currencies["names"].push(result.name);
+      currencies["ids"].push(result.id);
     });
-    console.log(table.toString());
+    return currencies;
   } catch (err) {
     console.log(err);
   }
 };
 
-module.exports = showCurrencies;
+const showCurrencies = (names) => {
+  currencies.all.forEach(result => {
+    names.forEach(name => {
+      if(name === result.name) {
+        table.push([
+          result.symbol,
+          result.name,
+          result.rank,
+          result.price_usd,
+          result.percent_change_1h,
+          result.percent_change_24h,
+          result.percent_change_7d
+        ]);
+      }
+    });
+  });
+  console.log(table.toString());
+};
+
+module.exports = { getCurrencies, showCurrencies};
