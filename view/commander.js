@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require("commander");
-const { addFavorites, showFavorites, deleteFavorites } = require("./inquirer");
+const { addFavorites, showFavorites, deleteFavorites, exportFavorites } = require("./inquirer");
 const { isInit } = require("../model/crypto");
 const db = require("../db.js");
 
@@ -10,10 +10,11 @@ db.sync();
 
 program
   .version("1.0.0")
-  .option("-i, --init", "initialisation")
+  .option("-i, --init", "initialization")
   .option("-s, --show", "show crypto in dbb")
-  .option("-a, --add", "add crypto in favoris")
-  .option("-d, --delete", "delete a crypto");
+  .option("-a, --add", "add crypto in favorite list")
+  .option("-d, --delete", "delete a crypto")
+  .option("-e, --export", "export favorite list");
 
 program.parse(process.argv);
 
@@ -46,6 +47,16 @@ program.parse(process.argv);
         return (async () => {
           try {
             deleteFavorites();
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      }
+
+      if (program.export) {
+        return (async () => {
+          try {
+            exportFavorites();
           } catch (err) {
             console.log(err);
           }

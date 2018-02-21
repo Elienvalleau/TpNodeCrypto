@@ -9,6 +9,7 @@ const { CryptoBdd } = require("../model/crypto");
 const loading = require("loading-cli");
 const { currencies } = require("../controller/api");
 const _ = require("lodash");
+const jsonfile = require('jsonfile');
 
 const addFavorites = async () => {
   const resultArray = [];
@@ -88,4 +89,17 @@ const deleteFavorites = async () => {
   }
 };
 
-module.exports = { addFavorites, showFavorites, deleteFavorites };
+const exportFavorites = async () => {
+  const file = 'exports/data.json';
+  try {
+    const request = await CryptoBdd.findAll();
+    jsonfile.writeFileSync(file, request, {spaces: 2, EOL: '\r\n'}, function (err) {
+      console.log(err);
+    })
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+module.exports = { addFavorites, showFavorites, deleteFavorites, exportFavorites };

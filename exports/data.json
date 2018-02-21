@@ -1,0 +1,65 @@
+[
+  {
+    "id": 36,
+    "idCrypto": "bitcoin",
+    "name": "Bitcoin",
+    "createdAt": "2018-02-20T16:43:36.074Z",
+    "updatedAt": "2018-02-20T16:43:36.074Z"
+  },
+  {
+    "id": 37,
+    "idCrypto": "litecoin",
+    "name": "Litecoin",
+    "createdAt": "2018-02-20T16:43:36.077Z",
+    "updatedAt": "2018-02-20T16:43:36.077Z"
+  },
+  {
+    "id": 39,
+    "idCrypto": "bitcoin-cash",
+    "name": "Bitcoin Cash",
+    "createdAt": "2018-02-20T16:43:36.077Z",
+    "updatedAt": "2018-02-20T16:43:36.077Z"
+  },
+  {
+    "id": 40,
+    "idCrypto": "neo",
+    "name": "NEO",
+    "createdAt": "2018-02-20T16:43:36.078Z",
+    "updatedAt": "2018-02-20T16:43:36.078Z"
+  },
+  {
+    "id": 41,
+    "idCrypto": "ethereum",
+    "name": "Ethereum",
+    "createdAt": "2018-02-20T16:43:36.078Z",
+    "updatedAt": "2018-02-20T16:43:36.078Z"
+  },
+  {
+    "id": 42,
+    "idCrypto": "cardano",
+    "name": "Cardano",
+    "createdAt": "2018-02-20T16:43:36.078Z",
+    "updatedAt": "2018-02-20T16:43:36.078Z"
+  },
+  {
+    "id": 43,
+    "idCrypto": "stellar",
+    "name": "Stellar",
+    "createdAt": "2018-02-20T16:45:09.545Z",
+    "updatedAt": "2018-02-20T16:45:09.546Z"
+  },
+  {
+    "id": 44,
+    "idCrypto": "bitconnect",
+    "name": "BitConnect",
+    "createdAt": "2018-02-21T08:07:50.595Z",
+    "updatedAt": "2018-02-21T08:07:50.595Z"
+  },
+  {
+    "id": 45,
+    "idCrypto": "bitcrystals",
+    "name": "Bitcrystals",
+    "createdAt": "2018-02-21T08:07:50.595Z",
+    "updatedAt": "2018-02-21T08:07:50.595Z"
+  }
+]
