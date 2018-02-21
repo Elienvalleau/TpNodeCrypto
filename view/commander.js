@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 const program = require("commander");
-const { addFavorites, showFavorites, deleteFavorites, exportFavorites, uploadFavorites } = require("./inquirer");
+const {
+  addFavorites,
+  showFavorites,
+  deleteFavorites,
+  exportFavorites,
+  uploadFavorites
+} = require("./inquirer");
 const { isInit } = require("../model/crypto");
 const db = require("../db.js");
 const chalk = require("chalk");
@@ -8,16 +14,16 @@ const { Op } = require("sequelize");
 
 db.sync();
 
-// isInit.destroy({where:{isInit:"True"}});
+// isInit.destroy({where:{isInit: true}});
 
 program
-  .version("1.0.0")
-  .option("-i, --init", "initialization")
-  .option("-s, --show", "show crypto in dbb")
-  .option("-a, --add", "add crypto in favorite list")
-  .option("-d, --delete", "delete a crypto")
-  .option("-e, --export", "export favorite list")
-  .option("-u, --upload [json file]", "upload your favorite list");
+  .version("1.0.0", "-v, --version")
+  .option("-i, --init", "initialization of your favorites")
+  .option("-s, --show", "show your favorites")
+  .option("-a, --add", "add a crypto to your favorites")
+  .option("-d, --delete", "delete a crypto from your favorites")
+  .option("-e, --export", "export your favorites in a JSON file")
+  .option("-u, --upload [json file path]", "import your favorite list");
 
 program.parse(process.argv);
 
@@ -63,7 +69,7 @@ program.parse(process.argv);
           try {
             exportFavorites();
           } catch (err) {
-            console.log(err);
+            console.log(chalk.red(err));
           }
         })();
       }
@@ -73,14 +79,13 @@ program.parse(process.argv);
           try {
             uploadFavorites(program.upload);
           } catch (err) {
-            console.log(err);
+            console.log(chalk.red(err));
           }
         })();
       }
 
       if (program.init) {
-        //TODO Ajouter des couleurs
-        console.log("Initialisation déjà effectuée");
+        console.log(chalk`{yellow \u26A0 Already made initialization}`);
       }
     } else {
       if (program.init || !process.argv.slice(2).length) {

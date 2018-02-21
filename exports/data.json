@@ -1,12 +1,5 @@
 [
   {
-    "id": 41,
-    "idCrypto": "ethereum",
-    "name": "Ethereum",
-    "createdAt": "2018-02-20T16:43:36.078Z",
-    "updatedAt": "2018-02-20T16:43:36.078Z"
-  },
-  {
     "id": 46,
     "idCrypto": "bitcoin",
     "name": "Bitcoin",
@@ -14,10 +7,31 @@
     "updatedAt": "2018-02-21T10:47:56.018Z"
   },
   {
-    "id": 47,
+    "id": 48,
+    "idCrypto": "ethereum",
+    "name": "Ethereum",
+    "createdAt": "2018-02-21T11:07:37.193Z",
+    "updatedAt": "2018-02-21T11:07:37.193Z"
+  },
+  {
+    "id": 49,
     "idCrypto": "neo",
     "name": "NEO",
-    "createdAt": "2018-02-21T10:48:58.715Z",
-    "updatedAt": "2018-02-21T10:48:58.715Z"
+    "createdAt": "2018-02-21T11:07:37.193Z",
+    "updatedAt": "2018-02-21T11:07:37.193Z"
+  },
+  {
+    "id": 50,
+    "idCrypto": "ripple",
+    "name": "Ripple",
+    "createdAt": "2018-02-21T11:28:27.890Z",
+    "updatedAt": "2018-02-21T11:28:27.890Z"
+  },
+  {
+    "id": 51,
+    "idCrypto": "bitcoin-cash",
+    "name": "Bitcoin Cash",
+    "createdAt": "2018-02-21T11:28:27.891Z",
+    "updatedAt": "2018-02-21T11:28:27.891Z"
   }
 ]
