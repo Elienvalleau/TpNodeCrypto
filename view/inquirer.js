@@ -19,8 +19,8 @@ const addFavorites = async () => {
 
     await getCurrencies();
     await inquirer.registerPrompt(
-      "search-checkbox",
-      require("inquirer-search-checkbox")
+    "search-checkbox",
+    require("inquirer-search-checkbox")
     );
     await load.stop();
 
@@ -82,8 +82,8 @@ const deleteFavorites = async () => {
   const resultArray = [];
   try {
     await inquirer.registerPrompt(
-      "search-checkbox",
-      require("inquirer-search-checkbox")
+    "search-checkbox",
+    require("inquirer-search-checkbox")
     );
 
     const result = await CryptoBdd.findAll();
@@ -131,5 +131,30 @@ const exportFavorites = async () => {
   }
 };
 
+const uploadFavorites = async (fileJson) => {
+  const resultArray = [];
+  try {
+    await getCurrencies();
+    await jsonfile.readFile(fileJson, async (err, obj) => {
+      const promises = [];
+      const names = [];
+      obj.forEach( async result => {
+        promises.push(CryptoBdd.findAll({where: {name: result.name}}));
+        names.push(result.name);
+      });
+      Promise.all(promises).then(data => {
+        for(let i = 0; i < data.length; i++) {
+          if (data[i].length === 0) {
+            resultArray.push(names[i]);
+          }
+        }
+        console.log(resultArray);
+        saveCurrencies(resultArray);
+      })
+    });
+  } catch (err) {
+    console.dir(err);
+  }
+};
 
-module.exports = { addFavorites, showFavorites, deleteFavorites, exportFavorites };
+module.exports = { addFavorites, showFavorites, deleteFavorites, exportFavorites, uploadFavorites };

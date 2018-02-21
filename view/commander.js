@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require("commander");
-const { addFavorites, showFavorites, deleteFavorites, exportFavorites } = require("./inquirer");
+const { addFavorites, showFavorites, deleteFavorites, exportFavorites, uploadFavorites } = require("./inquirer");
 const { isInit } = require("../model/crypto");
 const db = require("../db.js");
 const chalk = require("chalk");
@@ -8,7 +8,7 @@ const { Op } = require("sequelize");
 
 db.sync();
 
-// isInit.destroy({where:{isInit: true}});
+// isInit.destroy({where:{isInit:"True"}});
 
 program
   .version("1.0.0")
@@ -16,7 +16,8 @@ program
   .option("-s, --show", "show crypto in dbb")
   .option("-a, --add", "add crypto in favorite list")
   .option("-d, --delete", "delete a crypto")
-  .option("-e, --export", "export favorite list");
+  .option("-e, --export", "export favorite list")
+  .option("-u, --upload [json file]", "upload your favorite list");
 
 program.parse(process.argv);
 
@@ -61,6 +62,16 @@ program.parse(process.argv);
         return (async () => {
           try {
             exportFavorites();
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      }
+
+      if (program.upload) {
+        return (async () => {
+          try {
+            uploadFavorites(program.upload);
           } catch (err) {
             console.log(err);
           }
