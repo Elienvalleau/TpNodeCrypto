@@ -3,10 +3,12 @@ const program = require("commander");
 const { addFavorites, showFavorites, deleteFavorites, exportFavorites } = require("./inquirer");
 const { isInit } = require("../model/crypto");
 const db = require("../db.js");
+const chalk = require("chalk");
+const { Op } = require("sequelize");
 
 db.sync();
 
-// isInit.destroy({where:{isInit:"True"}});
+// isInit.destroy({where:{isInit: true}});
 
 program
   .version("1.0.0")
@@ -20,7 +22,9 @@ program.parse(process.argv);
 
 (async () => {
   try {
-    const request = await isInit.findAll({ where: { isInit: "True" } });
+    const request = await isInit.findAll({
+      where: { isInit: { [Op.eq]: true } }
+    });
 
     if (request.length !== 0) {
       if (program.show || !process.argv.slice(2).length) {
@@ -28,7 +32,7 @@ program.parse(process.argv);
           try {
             showFavorites();
           } catch (err) {
-            console.log(err);
+            console.log(chalk.red(err));
           }
         })();
       }
@@ -38,7 +42,7 @@ program.parse(process.argv);
           try {
             addFavorites();
           } catch (err) {
-            console.log(err);
+            console.log(chalk.red(err));
           }
         })();
       }
@@ -48,7 +52,7 @@ program.parse(process.argv);
           try {
             deleteFavorites();
           } catch (err) {
-            console.log(err);
+            console.log(chalk.red(err));
           }
         })();
       }
@@ -63,24 +67,24 @@ program.parse(process.argv);
         })();
       }
 
-      if (program.init){
+      if (program.init) {
         //TODO Ajouter des couleurs
-          console.log("Initialisation déjà effectuée")
+        console.log("Initialisation déjà effectuée");
       }
     } else {
       if (program.init || !process.argv.slice(2).length) {
         return (async () => {
           try {
-            isInit.create({ isInit: "True", createdAt: new Date() });
+            isInit.create({ isInit: true, createdAt: new Date() });
             addFavorites();
           } catch (err) {
-            console.log(err);
+            console.log(chalk.red(err));
           }
         })();
       }
     }
     program.help();
   } catch (err) {
-    console.log(err);
+    console.log(chalk.red(err));
   }
 })();

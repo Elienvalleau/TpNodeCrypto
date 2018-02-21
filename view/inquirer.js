@@ -9,12 +9,13 @@ const { CryptoBdd } = require("../model/crypto");
 const loading = require("loading-cli");
 const { currencies } = require("../controller/api");
 const _ = require("lodash");
+const chalk = require("chalk");
 const jsonfile = require('jsonfile');
 
 const addFavorites = async () => {
   const resultArray = [];
   try {
-    const load = loading("Fetching currencies").start();
+    const load = loading(chalk`{yellow Fetching currencies ...}`).start();
 
     await getCurrencies();
     await inquirer.registerPrompt(
@@ -23,8 +24,8 @@ const addFavorites = async () => {
     );
     await load.stop();
 
-    const request = await CryptoBdd.findAll();
-    request.forEach(result => {
+    const result = await CryptoBdd.findAll();
+    result.forEach(result => {
       resultArray.push(result.name);
     });
 
@@ -38,26 +39,42 @@ const addFavorites = async () => {
         choices: currenciesNotAlreadyAdded
       }
     ]);
+
     const cryptoChoices = answers.cryptoChoices;
     saveCurrencies(cryptoChoices);
 
-    //Todo "Do you want to show currencies ?"
+    const confirm = await inquirer.prompt([
+      {
+        type: "confirm",
+        message: "Do you want to show your favorites ?",
+        name: "confirmShowFavorites",
+      }
+    ]);
+
+    if(confirm.confirmShowFavorites) {
+      await showFavorites();
+    }
   } catch (err) {
-    console.log(err);
+    console.log(chalk.red(err));
   }
 };
 
 const showFavorites = async () => {
   const resultArray = [];
   try {
+    const load = loading(chalk`{yellow Fetching currencies ...}`).start();
+
     await getCurrencies();
     const request = await CryptoBdd.findAll();
     request.forEach(result => {
       resultArray.push(result.name);
     });
+
+    await load.stop();
+
     showCurrencies(resultArray);
   } catch (err) {
-    console.log(err);
+    console.log(chalk.red(err));
   }
 };
 
@@ -68,9 +85,9 @@ const deleteFavorites = async () => {
       "search-checkbox",
       require("inquirer-search-checkbox")
     );
-    const cryptoName = await CryptoBdd.findAll();
 
-    cryptoName.forEach(result => {
+    const result = await CryptoBdd.findAll();
+    result.forEach(result => {
       resultArray.push(result.name);
     });
 
@@ -79,13 +96,26 @@ const deleteFavorites = async () => {
         type: "search-checkbox",
         message: "Which crypto-currency do you want to delete ?",
         name: "cryptoChoices",
-        choices: cryptoName
+        choices: resultArray
       }
     ]);
+
     const cryptoChoices = answers.cryptoChoices;
     deleteCurrencies(cryptoChoices);
+
+    const confirm = await inquirer.prompt([
+      {
+        type: "confirm",
+        message: "Do you want to show your favorites ?",
+        name: "confirmShowFavorites",
+      }
+    ]);
+
+    if(confirm.confirmShowFavorites) {
+      await showFavorites();
+    }
   } catch (err) {
-    console.log(err);
+    console.log(chalk.red(err));
   }
 };
 
