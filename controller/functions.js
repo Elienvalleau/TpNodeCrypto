@@ -11,6 +11,7 @@ const showCurrencies = names => {
       chalk.cyan.bold("Name"),
       chalk.cyan.bold("Rank"),
       chalk.cyan.bold("Price $"),
+      chalk.cyan.bold("Market Cap $"),
       chalk.cyan.bold("% Change in 1h"),
       chalk.cyan.bold("% Change in 24h"),
       chalk.cyan.bold("% Change in 7d"),
@@ -53,6 +54,7 @@ const showCurrencies = names => {
           result.name,
           result.rank,
           result.price_usd,
+          result.market_cap_usd,
           percentChange1h,
           percentChange24h,
           percentChange7d
